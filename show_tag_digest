@@ -1,0 +1,3 @@
+REPO=${REPO:-localhost:5000}
+
+curl -sSL -I -H 'Accept: application/vnd.docker.distribution.manifest.v2+json' $REPO/v2/$1/manifests/$2 |grep "^Docker-Content-Digest"|cut -f2 -d" "| tr -d '\r'

@@ -1,0 +1,6 @@
+set -ex
+
+REPO=${REPO:-localhost:5000}
+
+curl -sS -X DELETE $REPO/v2/$1/manifests/$2
+
