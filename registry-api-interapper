@@ -1,9 +1,11 @@
 #!/bin/bash
-repo=$(bash list_repositories|jq -r '.repositories[]'|fzf)
+SCRIPT_PATH=$(dirname $(realpath "$0"))
+
+repo=$(bash $SCRIPT_PATH/list_repositories|jq -r '.repositories[]'|fzf)
 [ -z "$repo" ] && exit
-tag=$(bash list_tags $repo |jq -r '.tags[]' 2>/dev/null|fzf)
+tag=$(bash $SCRIPT_PATH/list_tags $repo |jq -r '.tags[]' 2>/dev/null|fzf)
 [ -z "$tag" ] && exit
-digest=$(bash show_tag_digest $repo $tag)
+digest=$(bash $SCRIPT_PATH/show_tag_digest $repo $tag)
 [ -z "$digest" ] && exit
 
 echo -e "$repo:$tag\t$digest"
@@ -11,7 +13,7 @@ read -p "Do you want to delete it? " -n 1 -r
 echo ""
 if [[ $REPLY =~ ^[Yy]$ ]]
 then
-    bash delete_digest $repo $digest
+    bash $SCRIPT_PATH/delete_digest $repo $digest
     echo "$digest deleted."
     echo "deleted"
     read -p "Do you want to garbage collect now? " -n 1 -r
@@ -21,5 +23,4 @@ then
         docker exec -it registry registry garbage-collect /etc/docker/registry/config.yml
     fi
 fi
-
 
