@@ -4,8 +4,9 @@ Scripts that wrap registry api which view repos and delete manifests interactive
 
 > Inspired by https://stackoverflow.com/questions/25436742/how-to-delete-images-from-a-private-docker-registry
 
-## preposition
+## prerequisite
 - fzf
+- jq
 
 ## install
 ```bash
